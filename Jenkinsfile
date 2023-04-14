@@ -7,15 +7,9 @@ pipeline {
         stage ('Build') {  
             when { expression { return params.Build }} 
             steps {
-                sh "mvn site"
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
                     sh "docker build -t ${user}/helloapp:${currentBuild.number} ."
                     sh "docker tag ${user}/helloapp:${currentBuild.number} ${user}/helloapp:latest"
-                }
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts:"target/site/**/**"
                 }
             }
         }
