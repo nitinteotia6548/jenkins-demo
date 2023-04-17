@@ -7,5 +7,5 @@ RUN mvn clean test package
 
 FROM builder
 COPY --from=builder /app/source/target/*.jar /app/app.jar
-EXPOSE 8088
+EXPOSE 8085
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
